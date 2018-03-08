@@ -1,4 +1,6 @@
-package com.sadasen.finance.user.service;
+package com.sadasen.finance.user.dao;
+
+import org.beetl.sql.core.mapper.BaseMapper;
 
 import com.sadasen.finance.user.dto.UserDto;
 import com.sadasen.finance.user.entity.User;
@@ -9,14 +11,8 @@ import com.sadasen.finance.user.entity.User;
  * @addr company
  * @desc
  */
-public interface UserService {
-	
-	public User save(User user);
+public interface UserDao extends BaseMapper<User> {
 	
 	public User findToLogin(UserDto userDto);
-	
-	public User findById(long id);
-	
-	public User getById(long id);
 
 }

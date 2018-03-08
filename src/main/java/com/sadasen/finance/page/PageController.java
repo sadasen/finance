@@ -11,7 +11,7 @@ import com.sadasen.finance.user.entity.User;
 /**
  * @date 2018年3月8日
  * @author lei.ys
- * @addr intellif
+ * @addr company
  * @desc
  */
 @Controller

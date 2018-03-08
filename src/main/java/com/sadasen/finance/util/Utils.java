@@ -1,6 +1,8 @@
 package com.sadasen.finance.util;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +22,15 @@ public class Utils implements Serializable {
 	private static final long serialVersionUID = 3998903802827987642L;
 	
 	private static final ObjectMapper objectMapper = new ObjectMapper();
+	public static final Map<String, String> deMap = new HashMap<>();
+	
+	static {
+		String t1 = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ*";
+		String t2 = "qwertyuiopASDFGHJKLzxcvbnm*ZXCVBNMasdfghjklQWERTYUIOP0987654321";
+		for(int i=0;i<t1.length();i++) {
+			deMap.put(t2.charAt(i)+"", t1.charAt(i)+"");
+		}
+	}
 	
 	private Utils() {
 	}
@@ -40,6 +51,14 @@ public class Utils implements Serializable {
 	 */
 	public static long getLoginUserId(HttpServletRequest request) {
 		return getLoginUser(request).getId();
+	}
+	
+	public static String dbDecrypt(String s) {
+		StringBuilder sb = new StringBuilder();
+		for(char c : s.toCharArray()) {
+			sb.append(deMap.get(c+""));
+		}
+		return sb.toString();
 	}
 	
 	/**

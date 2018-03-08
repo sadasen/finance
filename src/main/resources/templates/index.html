@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<title>钱都去哪了-首页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>$(document).on("mobileinit",function(){$.mobile.ajaxEnabled=false;});</script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="/statics/js/DateUtil.js"></script>
+	<style type="text/css">
+		table{border-right:1px solid #F00;border-bottom:1px solid #F00}
+		table td{border-left:1px solid #F00;border-top:1px solid #F00}
+		table th{border-left:1px solid #F00;border-top:1px solid #F00}
+		tfoot td{text-align: center;}
+	</style>
+</head>
+
+<body>
+	<div data-role="page">
+		<div data-role="header" data-position="fixed">
+			<a href="/page/recordAdd">记账</a>
+			<h1>首页</h1>
+			<a href="/logout">注销</a>
+		</div>
+		<div data-role="content">
+			<h4>总支出：<span id="total-cost"></span>元</h4>
+    		<h4>本月支出：<span id="month-cost"></span>元</h4>
+    		<h4>今日支出：<span id="today-cost"></span>元</h4>
+    		<hr />
+    		<h3>最新支出</h3>
+    		<!-- 
+    		<table class="ui-responsive" style="width:100%;">
+    		  <thead>
+    		    <tr>
+    		    	<th>日期</th>
+    		    	<th>分类</th>
+    		    	<th>金额</th>
+    		    	<th>总计</th>
+    		    </tr>
+    		  </thead>
+    		  <tbody>
+    		    
+    		  </tbody>
+    		  <tfoot>
+    		    <tr>
+    		    	<td colspan=10></td>
+    		    </tr>
+    		  </tfoot>
+    		</table>
+    		 -->
+    		<ul data-role="listview" data-filter="true" data-filter-placeholder="关键字" data-inset="true" id="record-list">
+			</ul>
+			<div id="load-more"></div>
+    		
+    		<div data-role="main" class="ui-content">
+				<div data-role="popup" id="myPopupDialog">
+			      <div data-role="header">
+			        <h1>详细信息</h1>
+			      </div>
+			
+			      <div data-role="main" class="ui-content">
+			        <p>日期：<span id="p-rdate"></span></p>
+			        <p>分类：<span id="p-consume"></span></p>
+			        <p>金额：<span id="p-price"></span>
+			        <p>方式：<span id="p-method"></span>
+			        <p>附加信息：<span id="p-remark"></span></p>
+			        <a href="javascript:void(0);" data-role="button" id="cancel-button">取消</a>
+			      </div>
+			
+			    </div>
+		    </div>
+		</div>
+		<div data-role="footer" data-position="fixed" data-id="icmu">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="/page/index" class="ui-btn-active ui-state-persist">首页</a></li>
+					<li><a href="/page/consumeList">分类</a></li>
+					<li><a href="/page/methodList">支出方式</a></li>
+					<li><a href="/index">统计</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$.ajax({
+		    	url: "/indexMsg",
+		    	type: "post",
+		    	dataType: "json",
+		    	success: function(res) {
+		    		if(200==res.code) {
+		    			$("#total-cost").text(res.data.totalCost);
+		    			$("#month-cost").text(res.data.thisMonthCost);
+		    			$("#today-cost").text(res.data.todayCost);
+		    			getData("");
+		    		}
+		    	},
+		    	error: function() {
+		    		//alert("error");
+		    	}
+		    });
+			
+			$("#cancel-button").click(function() {
+				$("#myPopupDialog").popup("close");
+			});
+			
+		});
+		
+		var detail = {};
+		
+		function getDetail(id) {
+			if(detail[id]) {
+				$("#myPopupDialog").popup("open");
+				$("#p-rdate").text(dateFormat(detail[id].rdate));
+				$("#p-consume").text(detail[id].name);
+				$("#p-price").text(detail[id].price);
+				$("#p-method").text(detail[id].method);
+				$("#p-remark").text(detail[id].remark);
+			} else {
+				$.ajax({
+					url: "/record/getDetail",
+					type: "POST",
+					data: {id: id},
+					dataType: "JSON",
+					success: function(res) {
+						if(res.code==200) {
+							$("#myPopupDialog").popup("open");
+							$("#p-rdate").text(dateFormat(res.data.rdate));
+							$("#p-consume").text(res.data.name);
+							$("#p-price").text(res.data.price);
+							$("#p-method").text(res.data.method);
+							$("#p-remark").text(res.data.remark);
+							detail[id] = res.data;
+						} else {
+							alert(res.msg);
+						}
+					},
+					error: function() {
+						alert("error");
+					}
+				});
+			}
+		}
+		
+		function dateFormat(ds) {
+			var date = new Date(ds);
+			var now = new Date();
+			if(date.getFullYear()==now.getFullYear()) {
+				return date.Format("MM月dd日");
+			}
+			return date.Format("yyyy年MM月dd日");
+		}
+		
+		function dealWithDataForListView(res) {
+			var tempDate;
+			var totalPrice = 0;
+			var html = "";
+			var dayHtml = "";
+			for(var i=0;i<res.data.length;i++) {
+				if(i==0) {
+					tempDate = res.data[i].rdate;
+					totalPrice += res.data[i].price;
+					dayHtml = "<li><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"<span class=\"ui-li-count\">"+res.data[i].price+"</span></a></li>";
+				} else if(res.data[i].rdate == tempDate) {
+					totalPrice += res.data[i].price;
+					dayHtml += "<li><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"<span class=\"ui-li-count\">"+res.data[i].price+"</span></a></li>";
+				} else {
+					dayHtml = "<li data-role=\"list-divider\">"+dateFormat(tempDate)+"<span class=\"ui-li-count\">"+Math.round(totalPrice*100)/100+"</span></li>"+dayHtml;
+					html += dayHtml;
+
+					tempDate = res.data[i].rdate;
+					totalPrice = res.data[i].price;
+					dayHtml = "<li><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"<span class=\"ui-li-count\">"+res.data[i].price+"</span></a></li>";
+				}
+				if(i==res.data.length-1) {
+					dayHtml = "<li data-role=\"list-divider\">"+dateFormat(tempDate)+"<span class=\"ui-li-count\">"+Math.round(totalPrice*100)/100+"</span></li>"+dayHtml;
+					html += dayHtml;
+				}
+			}
+			$("#record-list").append(html);
+			$("#record-list").listview("refresh");
+			$("#load-more").html("<a href=\"javascript:void(0);\" data-role=\"button\" onclick=\"getData('"+tempDate+"');\">加载更多</a>");
+		}
+		
+		function dealWithDataForTable(res) {
+			var tbody = $("tbody").first();
+			var html = "";
+			var firstLine = "";
+			var otherLine = "";
+			var tempDate;
+			var num = 0;
+			var totalPrice = 0;
+			for(var i=0;i<res.data.length;i++) {
+				if(i==0) {
+					num++;
+					tempDate = res.data[i].rdate;
+					firstLine = "<td><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"</a></td><td>"+res.data[i].price+"</td>";
+					totalPrice += res.data[i].price;
+				} else if(tempDate==res.data[i].rdate) {
+					num++;
+					otherLine += "<tr><td><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"</a></td><td>"+res.data[i].price+"</td></tr>";
+					totalPrice += res.data[i].price;
+				} else {
+					firstLine = "<tr><td rowspan="+num+">"+dateFormat(tempDate)+"</td>" + firstLine + "<td rowspan="+num+">"+Math.round(totalPrice*100)/100+"</td></tr>";
+					html += (firstLine+otherLine);
+					
+					tempDate = res.data[i].rdate;
+					firstLine = "<td><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"</a></td><td>"+res.data[i].price+"</td>";
+					otherLine = "";
+					num=1;
+					totalPrice = res.data[i].price;
+				}
+				if(i==res.data.length-1) {
+					firstLine = "<tr><td rowspan="+num+">"+dateFormat(tempDate)+"</td>" + firstLine + "<td rowspan="+num+">"+Math.round(totalPrice*100)/100+"</td></tr>";
+					html += (firstLine+otherLine);
+				}
+				//html += "<tr><td>"+res.data[i].rdate+"</td><td>"+res.data[i].name+"</td><td>"+res.data[i].price+"</td></tr>";
+			}
+			tbody.append(html);
+			$("tfoot tr td").first().html("<a href=\"javascript:void(0);\" onclick=\"getData('"+tempDate+"');\">加载更多</a>");
+		}
+		
+		function getData(endDate) {
+			var data = {};
+			if(endDate) {
+				data = {endDate: endDate}
+			}
+			$.ajax({
+		    	url: "/record/queryList",
+		    	type: "post",
+		    	data: data,
+		    	dataType: "json",
+		    	success: function(res) {
+		    		if(200==res.code && res.data.length>0) {
+		    			dealWithDataForListView(res);
+		    		} else {
+		    			alert(res.msg);
+		    		}
+		    	},
+		    	error: function() {
+		    		alert("error");
+		    	}
+		    });
+		}
+	</script>
+</body>
+</html>

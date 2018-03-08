@@ -20,6 +20,8 @@ import com.sadasen.finance.user.service.UserService;
  */
 public class UserController extends BaseController {
 	
+	private static final long serialVersionUID = 5851995341518049077L;
+	
 	@Autowired
 	private UserService userService;
 	

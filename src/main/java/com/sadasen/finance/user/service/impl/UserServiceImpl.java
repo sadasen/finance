@@ -2,6 +2,7 @@ package com.sadasen.finance.user.service.impl;
 
 import org.beetl.sql.core.SQLManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.sadasen.finance.user.dao.UserDao;
 import com.sadasen.finance.user.dto.UserDto;
@@ -15,6 +16,7 @@ import com.sadasen.util.DateTimeUtil;
  * @addr company
  * @desc
  */
+@Service
 public class UserServiceImpl implements UserService {
 	
 	@Autowired

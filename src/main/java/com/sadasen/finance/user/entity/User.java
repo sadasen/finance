@@ -1,5 +1,7 @@
 package com.sadasen.finance.user.entity;
 
+import org.beetl.sql.core.annotatoin.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sadasen.finance.base.BaseBean;
 
@@ -9,6 +11,7 @@ import com.sadasen.finance.base.BaseBean;
  * @addr company
  * @desc
  */
+@Table(name="sys_user")
 public class User extends BaseBean {
 	
 	private static final long serialVersionUID = 8699126083368028250L;

@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.sadasen.core.common.Consts;
+import com.sadasen.core.common.Error;
 import com.sadasen.core.common.JsonResult;
 import com.sadasen.finance.base.BaseController;
 import com.sadasen.finance.user.dto.UserDto;
@@ -18,6 +20,7 @@ import com.sadasen.finance.user.service.UserService;
  * @addr company
  * @desc
  */
+@RestController("/user")
 public class UserController extends BaseController {
 	
 	private static final long serialVersionUID = 5851995341518049077L;
@@ -31,10 +34,16 @@ public class UserController extends BaseController {
 		user.setUserName(dto.getUserName());
 		user.setPassword(dto.getPassword());
 		user = userService.save(user);
-		if(null!=user) {
-			return new JsonResult(user);
+		if(null==user) {
+			return new JsonResult(Error.SYSTEM);
 		}
-		return new JsonResult("error to register!", 500);
+		if(-1L==user.getId()) {
+			return new JsonResult(Error.REQUEST);
+		}
+		if(-2L==user.getId()) {
+			return new JsonResult("用户名已被注册！", Consts.REQUEST_FAILURE_CODE);
+		}
+		return new JsonResult(user);
 	}
 	
 	@PostMapping("/login")

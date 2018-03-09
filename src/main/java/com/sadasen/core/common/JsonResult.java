@@ -15,6 +15,16 @@ public class JsonResult {
 	public JsonResult() {
 	}
 	
+	public JsonResult(Error error) {
+		if(error==Error.REQUEST) {
+			code = Consts.REQUEST_ERROR_CODE;
+			msg = Consts.REQUEST_ERROR_TIP;
+		} else if(error==Error.SYSTEM) {
+			code = Consts.SYSTEM_ERROR_CODE;
+			msg = Consts.SYSTEM_ERROR_TIP;
+		}
+	}
+	
 	public JsonResult(Object data) {
 		this.data = data;
 	}
@@ -52,6 +62,10 @@ public class JsonResult {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(Error.REQUEST);
 	}
 
 }

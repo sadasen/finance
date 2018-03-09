@@ -9,6 +9,7 @@ import com.sadasen.finance.user.dto.UserDto;
 import com.sadasen.finance.user.entity.User;
 import com.sadasen.finance.user.service.UserService;
 import com.sadasen.util.DateTimeUtil;
+import com.sadasen.util.StringUtil;
 
 /**
  * @date 2018年3月8日
@@ -26,6 +27,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(User user) {
+		if(StringUtil.isEmpty(user.getUserName())) {
+			user.setId(-1L);
+			return user;
+		}
+		if(null!=findByUserName(user.getUserName())) {
+			user.setId(-2L);
+			return user;
+		}
 		user.setNickName(user.getUserName());
 		user.setRegTime(DateTimeUtil.getNow());
 		int r = sqlManager.insertTemplate(user, true);
@@ -48,6 +57,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getById(long id) {
 		return userDao.single(id);
+	}
+	
+	public User findByUserName(String userName) {
+		return userDao.selectByUserName(userName);
 	}
 
 }

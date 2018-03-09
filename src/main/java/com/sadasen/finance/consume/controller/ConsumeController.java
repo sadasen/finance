@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sadasen.core.common.Error;
+import com.sadasen.core.common.JsonResult;
 import com.sadasen.finance.base.BaseController;
 import com.sadasen.finance.consume.dto.ConsumeDto;
 import com.sadasen.finance.consume.entity.Consume;
 import com.sadasen.finance.consume.service.ConsumeService;
 import com.sadasen.finance.util.Utils;
-import com.sadasen.core.common.Consts;
-import com.sadasen.core.common.JsonResult;
 
 /**
  * @date 2018年3月8日
@@ -38,9 +38,9 @@ public class ConsumeController extends BaseController {
 		consume.setUserId(Utils.getLoginUserId(getRequest()));
 		consume = consumeService.save(consume);
 		if(null==consume) {
-			return new JsonResult("系统错误！", Consts.REQUEST_ERROR_CODE);
+			return new JsonResult(Error.SYSTEM);
 		} else if(-1L==consume.getId()) {
-			return new JsonResult("请求无效！", Consts.REQUEST_FAILURE_CODE);
+			return new JsonResult(Error.REQUEST);
 		}
 		return new JsonResult(consume);
 	}

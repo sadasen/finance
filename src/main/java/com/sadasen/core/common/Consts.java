@@ -19,8 +19,11 @@ public class Consts implements Serializable {
 	// 正常
 	public static final int REQUEST_SUCCESS_CODE = 200;
 	// 请求出错（客户端错误）
-	public static final int REQUEST_FAILURE_CODE = 400;
+	public static final int REQUEST_ERROR_CODE = 400;
+	public static final int REQUEST_FAILURE_CODE = 401;
+	public static final String REQUEST_ERROR_TIP = "请求无效！";
 	// 系统错误（服务的错误）
-	public static final int REQUEST_ERROR_CODE = 500;
+	public static final int SYSTEM_ERROR_CODE = 500;
+	public static final String SYSTEM_ERROR_TIP = "系统错误！";
 
 }

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sadasen.core.common.Consts;
-import com.sadasen.finance.user.entity.User;
+import com.sadasen.finance.modules.user.entity.User;
 
 /**
  * @date 2018年3月8日

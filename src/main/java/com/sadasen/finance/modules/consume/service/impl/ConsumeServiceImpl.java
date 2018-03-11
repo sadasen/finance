@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.beetl.sql.core.SQLManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.sadasen.finance.modules.consume.dao.ConsumeDao;
 import com.sadasen.finance.modules.consume.entity.Consume;
@@ -17,6 +18,7 @@ import com.sadasen.util.StringUtil;
  * @addr company
  * @desc
  */
+@Service
 public class ConsumeServiceImpl implements ConsumeService {
 	
 	@Autowired

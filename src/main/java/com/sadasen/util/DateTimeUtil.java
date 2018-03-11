@@ -13,12 +13,13 @@ import java.time.format.DateTimeFormatter;
 public class DateTimeUtil implements Serializable {
 	
 	private static final long serialVersionUID = -8907648564051445318L;
+	
+	private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	private DateTimeUtil() {
 	}
 	
 	public static String getNow() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		return dtf.format(LocalDateTime.now());
 	}
 

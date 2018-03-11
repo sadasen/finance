@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sadasen.core.common.Consts;
+import com.sadasen.core.common.GlobalConsts;
 import com.sadasen.finance.modules.user.entity.User;
 
 /**
@@ -41,7 +41,7 @@ public class Utils implements Serializable {
 	 * @return
 	 */
 	public static User getLoginUser(HttpServletRequest request) {
-		return (User) request.getSession().getAttribute(Consts.LOGIN_USER);
+		return (User) request.getSession().getAttribute(GlobalConsts.LOGIN_USER);
 	}
 	
 	/**

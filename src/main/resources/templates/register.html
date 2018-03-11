@@ -54,9 +54,10 @@
 					return;
 				}
 				$.ajax({
-					url: "/register",
+					url: "/user/register",
 					type: "POST",
 					data: $("#userRegisterForm").serialize(),
+					data: {}
 					dataType: "JSON",
 					success: function(res) {
 						if(200==res.code) {

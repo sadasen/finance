@@ -40,7 +40,7 @@ public class UtilsTest {
 	}
 	
 	public static void main(String[] args) {
-		String secret = "MySQL*28949613";
+		String secret = "Sds*28949613";
 		String s = dbEncrypt(secret);
 		System.out.println(s);
 		System.out.println(dbDecrypt(s));

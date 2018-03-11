@@ -19,6 +19,13 @@
 	
 	<dependencies>
 	
+		<!-- core项目的依赖 -->
+	    <dependency>
+	        <groupId>com.sadasen</groupId>
+	        <artifactId>sadasen-core</artifactId>
+	        <version>0.0.1</version>
+	    </dependency>
+	
 		<!-- web项目的依赖 -->
 	    <dependency>
 	        <groupId>org.springframework.boot</groupId>

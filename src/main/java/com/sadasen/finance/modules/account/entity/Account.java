@@ -19,7 +19,6 @@ public class Account extends BaseBean {
 	
 	private long id;
 	private String name;
-	private int hasWay;
 	private Date createTime;
 	
 	public Account() {
@@ -39,14 +38,6 @@ public class Account extends BaseBean {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getHasWay() {
-		return hasWay;
-	}
-
-	public void setHasWay(int hasWay) {
-		this.hasWay = hasWay;
 	}
 
 	public Date getCreateTime() {

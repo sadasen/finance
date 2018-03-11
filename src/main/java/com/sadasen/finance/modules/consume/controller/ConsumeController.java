@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sadasen.core.common.Error;
-import com.sadasen.core.common.JsonResult;
+import com.sadasen.core.response.JsonResult;
+import com.sadasen.core.response.status.Status;
 import com.sadasen.finance.base.BaseController;
 import com.sadasen.finance.modules.consume.dto.ConsumeDto;
 import com.sadasen.finance.modules.consume.entity.Consume;
@@ -38,17 +38,17 @@ public class ConsumeController extends BaseController {
 		consume.setUserId(Utils.getLoginUserId(getRequest()));
 		consume = consumeService.save(consume);
 		if(null==consume) {
-			return new JsonResult(Error.SYSTEM);
+			return JsonResult.instance(Status.SYSTEM_ERROR);
 		} else if(-1L==consume.getId()) {
-			return new JsonResult(Error.REQUEST);
+			return JsonResult.instance(Status.REQUEST_NO_EXISTS);
 		}
-		return new JsonResult(consume);
+		return JsonResult.instance(consume);
 	}
 	
 	@GetMapping("/listByParent/{type}/{parentId}")
 	public JsonResult list(@PathVariable("type") int type, @PathVariable("parentId") long parentId) {
 		Utils.printInfo("list success");
-		return new JsonResult(new ArrayList<>());
+		return JsonResult.instance(new ArrayList<>());
 	}
 
 }

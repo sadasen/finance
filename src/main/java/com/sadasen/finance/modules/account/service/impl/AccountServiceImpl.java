@@ -29,7 +29,6 @@ public class AccountServiceImpl implements AccountService {
 			return account;
 		}
 		account.setCreateTime(new Date());
-		account.setHasWay(0);
 		int r = sqlManager.insertTemplate(account, true);
 		if(1==r) {
 			return account;

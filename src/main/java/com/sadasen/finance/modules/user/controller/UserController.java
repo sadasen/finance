@@ -36,11 +36,12 @@ public class UserController extends BaseController {
 		user.setUserName(dto.getUserName());
 		user.setPassword(dto.getPassword());
 		user = userService.save(user);
+		
 		if(null==user) {
 			return JsonResult.instance(Status.SYSTEM_ERROR);
 		}
 		if(-1L==user.getId()) {
-			return JsonResult.instance(Status.REQUEST_FAILURE);
+			return JsonResult.instance(Status.REQUEST_LACK);
 		}
 		if(-2L==user.getId()) {
 			return JsonResult.instance("用户名已被注册！", Status.REQUEST_VALID);
@@ -51,6 +52,7 @@ public class UserController extends BaseController {
 	@PostMapping("/login")
 	public JsonResult login(UserDto userDto) {
 		User user = userService.findToLogin(userDto);
+		
 		if(null==user) {
 			return JsonResult.instance(Status.REQUEST_VALID);
 		}

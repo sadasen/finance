@@ -57,11 +57,12 @@
 					url: "/user/register",
 					type: "POST",
 					data: $("#userRegisterForm").serialize(),
-					data: {}
 					dataType: "JSON",
 					success: function(res) {
-						if(200==res.code) {
-							location.href="/page/login";
+						if(100==res.code) {
+							if(confirm("注册成功，前往登录？")) {
+								location.href="/page/login";
+							}
 						} else {
 							alert(res.msg);
 						}

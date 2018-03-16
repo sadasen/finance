@@ -40,7 +40,7 @@ public class ConsumeController extends BaseController {
 		if(null==consume) {
 			return JsonResult.instance(Status.SYSTEM_ERROR);
 		} else if(-1L==consume.getId()) {
-			return JsonResult.instance(Status.REQUEST_NO_EXISTS);
+			return JsonResult.instance(Status.REQUEST_VALID);
 		}
 		return JsonResult.instance(consume);
 	}

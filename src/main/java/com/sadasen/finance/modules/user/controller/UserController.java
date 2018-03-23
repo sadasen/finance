@@ -2,9 +2,7 @@ package com.sadasen.finance.modules.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sadasen.core.common.GlobalConsts;
@@ -22,7 +20,6 @@ import com.sadasen.finance.modules.user.service.UserService;
  * @desc
  */
 @RestController
-@RequestMapping("/user")
 public class UserController extends BaseController {
 	
 	private static final long serialVersionUID = 5851995341518049077L;
@@ -41,10 +38,10 @@ public class UserController extends BaseController {
 			return JsonResult.instance(Status.SYSTEM_ERROR);
 		}
 		if(-1L==user.getId()) {
-			return JsonResult.instance(Status.REQUEST_LACK);
+			return JsonResult.instance(Status.REQUEST_LACK, "用户名及密码不能为空！");
 		}
 		if(-2L==user.getId()) {
-			return JsonResult.instance("用户名已被注册！", Status.REQUEST_VALID);
+			return JsonResult.instance(Status.REQUEST_VALID, "用户名已被注册！");
 		}
 		return JsonResult.instance(user);
 	}
@@ -54,28 +51,16 @@ public class UserController extends BaseController {
 		User user = userService.findToLogin(userDto);
 		
 		if(null==user) {
-			return JsonResult.instance(Status.REQUEST_VALID);
+			return JsonResult.instance(Status.REQUEST_NOT_EXISTS, "用户名或者密码不正确");
 		}
-		getRequest().getSession().setAttribute(GlobalConsts.LOGIN_USER, user);
+		super.getRequest().getSession().setAttribute(GlobalConsts.LOGIN_USER, user);
 		return JsonResult.instance(user);
 	}
 	
-	@GetMapping("/user/{id}")
-	public JsonResult userInfo(@PathVariable("id") long id) {
-		User user = userService.findById(id);
-		if(null==user) {
-			return JsonResult.instance(Status.REQUEST_NO_EXISTS);
-		}
-		return JsonResult.instance(user);
-	}
-	
-	@GetMapping("/info/{id}")
-	public JsonResult info(@PathVariable("id") long id) {
-		User user = userService.getById(id);
-		if(null==user) {
-			return JsonResult.instance(Status.REQUEST_NO_EXISTS);
-		}
-		return JsonResult.instance(user);
+	@GetMapping("/login")
+	public JsonResult logout() {
+		super.getRequest().getSession().removeAttribute(GlobalConsts.LOGIN_USER);
+		return JsonResult.instance();
 	}
 
 }

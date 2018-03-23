@@ -23,7 +23,7 @@
 			<h1>钱都去哪了</h1>
 		</div>
 		<div data-role="content">
-			<form name="login" id="userRegisterForm" action="/user/registerCheck" method="POST" data-ajax="false">
+			<form name="login" id="userRegisterForm" action="/register" method="POST" data-ajax="false">
 			  <div data-role="fieldcontain">
 				<label for="userName">用户名：</label>
 				<input type="text" name="userName" id="userName" />
@@ -54,7 +54,7 @@
 					return;
 				}
 				$.ajax({
-					url: "/user/register",
+					url: "/register",
 					type: "POST",
 					data: $("#userRegisterForm").serialize(),
 					dataType: "JSON",

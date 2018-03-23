@@ -62,12 +62,10 @@
 					data: $("#userLoginForm").serialize(),
 					dataType: "JSON",
 					success: function(res) {
-						if(100==res.code) {
+						if(200==res.code) {
 							location.href="/page/index";
-						} else if(640==res.code) {
-							alert("用户名或密码错误！");
 						} else {
-							alert("系统错误！");
+							alert(res.msg);
 						}
 					}
 				});

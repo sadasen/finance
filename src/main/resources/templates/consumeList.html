@@ -125,7 +125,7 @@
 					data: {parentId: $("#parentId").val(), name: $("#name").val(), type: $("#type").val()},
 					dataType: "JSON",
 					success: function(res) {
-						if(res.code==200) {
+						if(res.code==100) {
 							alert("添加成功！");
 							var html = "<li><a href=\"javascript:void(0);\" onclick=\"listByParentId('"+res.data.id+"','"+res.data.name+"');\">"+res.data.name+"</a></li>";
 							var e = $("#level-0");
@@ -150,7 +150,7 @@
 		    	type: "get",
 		    	dataType: "json",
 		    	success: function(res) {
-		    		if(200==res.code) {
+		    		if(100==res.code) {
 		    			var e = $("#level-0");
 		    			var html = "<li data-role='list-divider'>"+pname+"</li>";
 		    			for(var i=0;i<res.data.length;i++) {

@@ -19,6 +19,7 @@ public class Account extends BaseBean {
 	
 	private long id;
 	private String name;
+	private int sort;
 	private Date createTime;
 	
 	public Account() {
@@ -38,6 +39,14 @@ public class Account extends BaseBean {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getSort() {
+		return sort;
+	}
+
+	public void setSort(int sort) {
+		this.sort = sort;
 	}
 
 	public Date getCreateTime() {

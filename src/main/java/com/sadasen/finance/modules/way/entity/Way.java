@@ -19,6 +19,7 @@ public class Way extends BaseBean {
 	
 	private long id;
 	private String name;
+	private int sort;
 	private Date createTime;
 	
 	public Way() {
@@ -30,6 +31,14 @@ public class Way extends BaseBean {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public int getSort() {
+		return sort;
+	}
+
+	public void setSort(int sort) {
+		this.sort = sort;
 	}
 
 	public String getName() {

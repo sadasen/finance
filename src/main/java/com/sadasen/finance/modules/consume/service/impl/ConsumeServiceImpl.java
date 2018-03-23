@@ -1,6 +1,7 @@
 package com.sadasen.finance.modules.consume.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.beetl.sql.core.SQLManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +116,11 @@ public class ConsumeServiceImpl implements ConsumeService {
 		}
 		String endCode = code.substring(code.length()-3);
 		return Integer.parseInt(endCode)+1;
+	}
+
+	@Override
+	public List<Consume> findByParent(long parentId) {
+		return null;
 	}
 
 }

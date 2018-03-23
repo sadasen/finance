@@ -1,5 +1,7 @@
 package com.sadasen.finance.modules.consume.service;
 
+import java.util.List;
+
 import com.sadasen.finance.modules.consume.entity.Consume;
 
 /**
@@ -15,5 +17,7 @@ public interface ConsumeService {
 	public Consume findById(long id);
 	
 	public String getMaxCodeByParent(long id);
+	
+	public List<Consume> findByParent(long parentId);
 
 }

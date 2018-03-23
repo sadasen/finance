@@ -116,8 +116,8 @@ public class ConsumeServiceImpl implements ConsumeService {
 	}
 
 	@Override
-	public List<Consume> findByParent(long parentId) {
-		return null;
+	public List<Consume> findByParent(Consume param) {
+		return consumeDao.selectByParent(param);
 	}
 
 }

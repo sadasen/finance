@@ -1,5 +1,7 @@
 package com.sadasen.finance.modules.account.service.impl;
 
+import java.util.List;
+
 import org.beetl.sql.core.SQLManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,11 @@ public class AccountServiceImpl implements AccountService {
 			return account;
 		}
 		return null;
+	}
+
+	@Override
+	public List<Account> findListByUser(long userId) {
+		return accountDao.selectListByUser(userId);
 	}
 
 }

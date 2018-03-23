@@ -18,6 +18,6 @@ public interface ConsumeService {
 	
 	public String getMaxCodeByParent(long id);
 	
-	public List<Consume> findByParent(long parentId);
+	public List<Consume> findByParent(Consume param);
 
 }

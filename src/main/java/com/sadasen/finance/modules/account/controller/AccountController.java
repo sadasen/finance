@@ -1,5 +1,8 @@
 package com.sadasen.finance.modules.account.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +42,16 @@ public class AccountController extends BaseController {
 			e.printStackTrace();
 			return JsonResult.instance(Status.SYSTEM_ERROR);
 		}
-		return JsonResult.instance(account);
+		return JsonResult.instance("添加成功", account);
+	}
+
+	@PostMapping("/listAll")
+	public JsonResult listAll() {
+		List<Account> data = accountService.findListByUser(Utils.getLoginUserId(getRequest()));
+		if(null==data) {
+			data = new ArrayList<>();
+		}
+		return JsonResult.instance(data);
 	}
 
 }

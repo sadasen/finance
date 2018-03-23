@@ -1,5 +1,7 @@
 package com.sadasen.finance.modules.way.service.impl;
 
+import java.util.List;
+
 import org.beetl.sql.core.SQLManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,11 @@ public class WayServiceImpl implements WayService {
 			return way;
 		}
 		return null;
+	}
+
+	@Override
+	public List<Way> findListByUser(long userId) {
+		return wayDao.selectListByUser(userId);
 	}
 
 }

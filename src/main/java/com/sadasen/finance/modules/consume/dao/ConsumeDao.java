@@ -19,7 +19,7 @@ public interface ConsumeDao extends BaseMapper<Consume> {
 	
 	public String findMaxCodeByParentId(@Param("type") int type, @Param("parentId") long parentId);
 	
-	public List<Consume> selectByParent(@Param("parentId") long parentId);
+	public List<Consume> selectByParent(Consume param);
 	
 	public int countByParentId(@Param("parentId") long parentId);
 

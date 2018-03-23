@@ -1,5 +1,7 @@
 package com.sadasen.finance.modules.way.service;
 
+import java.util.List;
+
 import com.sadasen.finance.modules.way.entity.Way;
 
 /**
@@ -11,5 +13,7 @@ import com.sadasen.finance.modules.way.entity.Way;
 public interface WayService {
 	
 	public Way save(Way way);
+	
+	public List<Way> findListByUser(long userId);
 
 }

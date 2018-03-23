@@ -1,5 +1,7 @@
 package com.sadasen.finance.modules.account.service;
 
+import java.util.List;
+
 import com.sadasen.finance.modules.account.entity.Account;
 
 /**
@@ -11,5 +13,7 @@ import com.sadasen.finance.modules.account.entity.Account;
 public interface AccountService {
 	
 	public Account save(Account account);
+	
+	public List<Account> findListByUser(long userId);
 
 }

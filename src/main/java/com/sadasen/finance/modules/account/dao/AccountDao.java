@@ -1,5 +1,7 @@
 package com.sadasen.finance.modules.account.dao;
 
+import java.util.List;
+
 import org.beetl.sql.core.annotatoin.Param;
 import org.beetl.sql.core.mapper.BaseMapper;
 
@@ -14,5 +16,7 @@ import com.sadasen.finance.modules.account.entity.Account;
 public interface AccountDao extends BaseMapper<Account> {
 	
 	public int countByUser(@Param("userId") long userId);
+	
+	public List<Account> selectListByUser(@Param("userId") long userId);
 
 }

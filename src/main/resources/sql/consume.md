@@ -13,7 +13,7 @@ findMaxCodeByParentId
 selectByParent
 ===
 	select id, parent_id, user_id, name, type, code, level, sort, has_child from t_consume
-	where parent_id = #parentId#
+	where type = #type# and parent_id = #parentId# and user_id = #userId#
 	
 countByParentId
 ===

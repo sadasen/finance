@@ -52,7 +52,7 @@
 	</div>
 	<script>
 		$(document).ready(function() {
-			//getWayList();
+			getWayList();
 			
 			$("#add-button").click(function() {
 				if(!$.trim($("#way").val())) {
@@ -65,7 +65,7 @@
 					data: {name: $("#way").val()},
 					dataType: "JSON",
 					success: function(res) {
-						if(res.code==200) {
+						if(res.code==100) {
 							alert("添加成功！");
 							var html = "<li>"+$("#way").val()+"</li>";
 							var e = $("#way-list");
@@ -90,7 +90,7 @@
 		    	type: "post",
 		    	dataType: "json",
 		    	success: function(res) {
-		    		if(200==res.code) {
+		    		if(100==res.code) {
 		    			var e = $("#way-list");
 		    			var html = "<li data-role='list-divider'>支出方式列表</li>";
 		    			for(var i=0;i<res.data.length;i++) {

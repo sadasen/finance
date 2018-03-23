@@ -7,8 +7,8 @@
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script>$(document).on("mobileinit",function(){$.mobile.ajaxEnabled=false});</script>
 	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-	<script src="/statics/js/laydate/laydate.js"></script>
-	<script src="/statics/js/DateUtil.js"></script>
+	<script src="/static/js/laydate/laydate.js"></script>
+	<script src="/static/js/DateUtil.js"></script>
 	<style>
 		.ui-block-a, .ui-block-b {
 		    font-weight: bold;
@@ -26,9 +26,14 @@
 		</div>
 		<div data-role="content">
 			<form name="login" id="recordAddForm" action="/record/addCheck" method="POST" data-ajax="false">
+			  <input type="hidden" id="type" value="0">
+			  <div data-role="controlgroup" data-type="horizontal">
+				  <a href="javascript:void(0);" id="out-type" data-role="button">支出</a>
+				  <a href="javascript:void(0);" id="in-type" data-role="button">收入</a>
+			  </div>
 			  <div data-role="fieldcontain">
 				<label for="userName">日期：</label>
-				<input type="text" name="rdate" id="rdate" />
+				<input type="text" name="recordDate" id="recordDate" />
 			  </div>
 			  <div data-role="fieldcontain">
 			  	<fieldset data-role="controlgroup">
@@ -48,7 +53,7 @@
 			  </div>
 			  <fieldset data-role="fieldcontain">
 		        <label for="day">支出方式</label>
-		        <select name="mid" id="mid">
+		        <select name="wayId" id="wayId">
 		        </select>
 		      </fieldset>
 		      <div class="ui-field-contain">
@@ -72,19 +77,18 @@
 	<script>
 		$(document).ready(function() {
 			
-			$("#rdate").val(new Date().Format("yyyy-MM-dd"));
+			$("#recordDate").val(new Date().Format("yyyy-MM-dd"));
 			
 			laydate.render({
-  		  		elem: '#rdate' //指定元素
+  		  		elem: '#recordDate' //指定元素
 			});
 			
 			$.ajax({
-				url: "/consume/listByPid",
-				method: "post",
-				data: {pid: 0},
+				url: "/consume/listByParent/"+$("#type").val()+"/"+0,
+				method: "get",
 				dataType: "json",
 				success: function(res) {
-					if(200==res.code) {
+					if(100==res.code) {
 						if(0!=res.data.length) {
 							var txt = "<option value=''>请选择</option>"
 							for(var i=0;i<res.data.length;i++) {
@@ -102,17 +106,17 @@
 			});
 			
 			$.ajax({
-				url: "/method/listAll",
+				url: "/way/listAll",
 				method: "post",
 				dataType: "json",
 				success: function(res) {
-					if(200==res.code) {
+					if(100==res.code) {
 						if(0!=res.data.length) {
 							var txt = "<option value=''>请选择</option>"
 							for(var i=0;i<res.data.length;i++) {
-								txt += "<option value='"+res.data[i].id+"'>"+res.data[i].method+"</option>";
+								txt += "<option value='"+res.data[i].id+"'>"+res.data[i].name+"</option>";
 							}
-							$("#mid").html(txt);
+							$("#wayId").html(txt);
 						}
 					} else {
 						alert(res.msg);
@@ -124,7 +128,7 @@
 			});
 
 			$("#addRecordSubmit").click(function() {
-				if(!$("#rdate").val()) {
+				if(!$("#recordDate").val()) {
 					alert("请选择日期");
 					return;
 				}
@@ -136,7 +140,7 @@
 					alert("请选择日期");
 					return;
 				}
-				if(!$("select[name='mid']").val()) {
+				if(!$("select[name='wayId']").val()) {
 					alert("请选择支出方式");
 					return;
 				}
@@ -146,7 +150,7 @@
 					data: $("#recordAddForm").serialize(),
 					dataType: "JSON",
 					success: function(res) {
-						if(200==res.code) {
+						if(100==res.code) {
 							alert("添加成功！")
 							location.href="/record/add";
 						} else {
@@ -157,6 +161,20 @@
 						alert("error");
 					}
 				});
+			});
+			
+			$("#in-type").click(function() {
+				$("#in-type").css("background", "#CCC");
+				$("#out-type").css("background", "#EEE")
+				$("#type").val(1);
+				listByParent(0, $("#type").val());
+			});
+			
+			$("#out-type").click(function() {
+				$("#in-type").css("background", "#EEE");
+				$("#out-type").css("background", "#CCC")
+				$("#type").val(0);
+				listByParent(0, $("#type").val());
 			});
 		});
 		
@@ -174,12 +192,11 @@
     				return;
     			}
     			$.ajax({
-    				url: "/consume/listByPid",
-    				method: "post",
-    				data: {pid: pid},
+    				url: "/consume/listByParent/"+$("#type").val()+"/"+pid,
+    				method: "get",
     				dataType: "json",
     				success: function(res) {
-    					if(200==res.code) {
+    					if(100==res.code) {
     						if(0!=res.data.length) {
     							var txt = "<select onchange=\"listByParent(this, "+(level+1)+");\">";
     							txt += "<option value=''>请选择</option>"

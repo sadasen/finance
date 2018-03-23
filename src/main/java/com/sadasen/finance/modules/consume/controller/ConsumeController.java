@@ -1,6 +1,6 @@
 package com.sadasen.finance.modules.consume.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,8 +47,12 @@ public class ConsumeController extends BaseController {
 	
 	@GetMapping("/listByParent/{type}/{parentId}")
 	public JsonResult list(@PathVariable("type") int type, @PathVariable("parentId") long parentId) {
-		Utils.printInfo("list success");
-		return JsonResult.instance(new ArrayList<>());
+		Consume param = new Consume();
+		param.setUserId(Utils.getLoginUserId(getRequest()));
+		param.setType(type);
+		param.setParentId(parentId);
+		List<Consume> data = consumeService.findByParent(param);
+		return JsonResult.instance(data);
 	}
 
 }

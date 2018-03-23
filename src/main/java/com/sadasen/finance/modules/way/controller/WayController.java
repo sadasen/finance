@@ -1,5 +1,8 @@
 package com.sadasen.finance.modules.way.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +36,16 @@ public class WayController extends BaseController {
 		if(-1L==way.getId()) {
 			return JsonResult.instance(Status.REQUEST_LACK, "名称不能为空");
 		}
-		return JsonResult.instance(way);
+		return JsonResult.instance("添加成功", way);
+	}
+	
+	@RequestMapping("/listAll")
+	public JsonResult listAll() {
+		List<Way> data = wayService.findListByUser(Utils.getLoginUserId(getRequest()));
+		if(null==data) {
+			data = new ArrayList<>();
+		}
+		return JsonResult.instance(data);
 	}
 
 }

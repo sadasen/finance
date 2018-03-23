@@ -61,5 +61,11 @@ public class AccountController extends BaseController {
 		List<Account> data = accountService.findListByWay(Utils.getLoginUserId(getRequest()), wayId);
 		return JsonResult.instance(data);
 	}
+	
+	@GetMapping("/way/notin/{wayId}")
+	public JsonResult listByWayNotIn(@PathVariable("wayId") long wayId) {
+		List<Account> data = accountService.findListByNotInWay(Utils.getLoginUserId(getRequest()), wayId);
+		return JsonResult.instance(data);
+	}
 
 }

@@ -1,4 +1,6 @@
-
+insertWayAccount
+===
+	insert into t_way_account(way_id, account_id) value (#wayId#, #accountId#)
 
 countByUser
 ===

@@ -14,8 +14,12 @@ public interface AccountService {
 	
 	public Account save(Account account);
 	
+	public Account findById(long id);
+	
 	public List<Account> findListByUser(long userId);
 
 	public List<Account> findListByWay(long userId, long wayId);
+	
+	public List<Account> findListByNotInWay(long userId, long wayId);
 
 }

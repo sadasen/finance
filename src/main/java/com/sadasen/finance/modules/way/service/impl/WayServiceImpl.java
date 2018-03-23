@@ -42,6 +42,16 @@ public class WayServiceImpl implements WayService {
 		}
 		return null;
 	}
+	
+	@Override
+	public int saveWayAccount(long wayId, long accountId) {
+		return wayDao.insertWayAccount(wayId, accountId);
+	}
+	
+	@Override
+	public Way findById(long id) {
+		return wayDao.single(id);
+	}
 
 	@Override
 	public List<Way> findListByUser(long userId) {

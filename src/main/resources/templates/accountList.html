@@ -13,7 +13,7 @@
 	<div data-role="page">
 		<div data-role="header" data-position="fixed">
 			<a href="/page/recordAdd">记账</a>
-			<h1>支出方式</h1>
+			<h1>账户</h1>
 			<a href="/logout">注销</a>
 		</div>
 		<div data-role="content">
@@ -24,12 +24,12 @@
 		    <div data-role="main" class="ui-content">
 				<div data-role="popup" id="myPopupDialog">
 			      <div data-role="header">
-			        <h1>新增支出方式</h1>
+			        <h1>新增账户</h1>
 			      </div>
 			
 			      <div data-role="main" class="ui-content">
 			        <div data-role="fieldcontain">
-						<label for="account">支出方式：</label>
+						<label for="account">账户：</label>
 						<input type="text" name="name" id="account" />
 				  	</div>
 			        <a href="javascript:void(0);" data-role="button" id="add-button">新增</a>
@@ -56,7 +56,7 @@
 			
 			$("#add-button").click(function() {
 				if(!$.trim($("#account").val())) {
-					alert("支出方式不能为空！");
+					alert("账户不能为空！");
 					return;
 				}
 				$.ajax({
@@ -92,12 +92,12 @@
 		    	success: function(res) {
 		    		if(100==res.code) {
 		    			var e = $("#account-list");
-		    			var html = "<li data-role='list-divider'>支出方式列表</li>";
+		    			var html = "<li data-role='list-divider'>账户列表</li>";
 		    			for(var i=0;i<res.data.length;i++) {
 		    				html += "<li>"+res.data[i].name+"</li>";
 		    			}
 		    			e.html(html);
-		    			e.listview("refresh")
+		    			e.listview("refresh");
 		    		} else {
 		    			alert(res.msg);
 		    		}

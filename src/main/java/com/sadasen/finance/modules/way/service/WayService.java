@@ -14,6 +14,10 @@ public interface WayService {
 	
 	public Way save(Way way);
 	
+	public int saveWayAccount(long wayId, long accountId);
+	
+	public Way findById(long id);
+	
 	public List<Way> findListByUser(long userId);
 
 }

@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS sys_user (
 	user_name varchar(30) NOT NULL COMMENT '用户名',
 	nick_name varchar(30) DEFAULT NULL COMMENT '昵称',
 	password varchar(50) NOT NULL COMMENT '密码',
-	reg_time datetime DEFAULT NULL COMMENT '注册时间'
+	reg_time timestamp default current_timestamp comment '注册时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 分类表
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS t_consume (
 	level tinyint(4) DEFAULT 0 COMMENT '分类级别',
 	sort int(11) DEFAULT 0 COMMENT '排序',
 	has_child tinyint(11) DEFAULT 0 COMMENT '是否有子分类',
-	create_time datetime DEFAULT null COMMENT '创建时间'
+	create_time timestamp default current_timestamp comment '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS t_consume_parent (

@@ -15,6 +15,8 @@ import com.sadasen.finance.modules.way.entity.Way;
  */
 public interface WayDao extends BaseMapper<Way> {
 	
+	public int insertWayAccount(@Param("wayId") long wayId, @Param("accountId") long accountId);
+	
 	public int countByUser(@Param("userId") long userId);
 	
 	public List<Way> selectListByUser(@Param("userId") long userId);

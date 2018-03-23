@@ -41,6 +41,11 @@ public class AccountServiceImpl implements AccountService {
 		}
 		return null;
 	}
+	
+	@Override
+	public Account findById(long id) {
+		return accountDao.single(id);
+	}
 
 	@Override
 	public List<Account> findListByUser(long userId) {
@@ -50,6 +55,11 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public List<Account> findListByWay(long userId, long wayId) {
 		return accountDao.selectListByWay(userId, wayId);
+	}
+
+	@Override
+	public List<Account> findListByNotInWay(long userId, long wayId) {
+		return accountDao.selectListByNotInWay(userId, wayId);
 	}
 
 }

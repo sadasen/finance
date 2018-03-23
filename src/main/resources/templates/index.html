@@ -24,8 +24,8 @@
 			<a href="/logout">注销</a>
 		</div>
 		<div data-role="content">
-			<h4>总数：<span id="total-amount"></span>元&nbsp;&nbsp;&nbsp;：<span id="total-amount"></span>元</h4>
-    		<h4>本月：<span id="month-amount"></span>元&nbsp;&nbsp;&nbsp;：<span id="total-amount"></span>元</h4>
+			<h4>总数：<span id="total-all-amount"></span>元&nbsp;&nbsp;&nbsp;：<span id="avg-all-amount"></span>元</h4>
+    		<h4>本月：<span id="total-month-amount"></span>元&nbsp;&nbsp;&nbsp;：<span id="avg-month-amount"></span>元</h4>
     		<h4>今日：<span id="today-amount"></span>元&nbsp;&nbsp;&nbsp;
     		<hr />
     		<h3>最新支出</h3>
@@ -91,9 +91,11 @@
 		    	data: {type: 0},
 		    	dataType: "json",
 		    	success: function(res) {
-		    		if(200==res.code) {
-		    			$("#total-amount").text(res.data.totalAmount);
-		    			$("#month-amount").text(res.data.thisMonthAmount);
+		    		if(100==res.code) {
+		    			$("#total-all-amount").text(res.data.totalAllAmount);
+		    			$("#avg-all-amount").text(res.data.avgAllAmount);
+		    			$("#total-month-amount").text(res.data.totalMonthAmount);
+		    			$("#avg-month-amount").text(res.data.avgMonthAmount);
 		    			$("#today-amount").text(res.data.todayAmount);
 		    		}
 	    			getData("");

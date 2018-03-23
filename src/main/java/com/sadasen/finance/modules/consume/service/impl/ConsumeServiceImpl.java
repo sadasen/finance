@@ -79,10 +79,7 @@ public class ConsumeServiceImpl implements ConsumeService {
 		
 		/** 父分类hasChild设置 */
 		if(null!=parent && 0==parent.getHasChild()) {
-			Consume updateObject = new Consume();
-			updateObject.setId(parent.getId());
-			updateObject.setHasChild(1);
-			sqlManager.updateTemplateById(updateObject);
+			consumeDao.updateHasChild(parent.getId(), 1);
 		}
 		
 		if(1==r) {

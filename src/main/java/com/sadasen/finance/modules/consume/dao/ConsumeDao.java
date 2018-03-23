@@ -15,6 +15,8 @@ import com.sadasen.finance.modules.consume.entity.Consume;
  */
 public interface ConsumeDao extends BaseMapper<Consume> {
 	
+	public int updateHasChild(@Param("id") long id, @Param("hasChild") int hasChild);
+	
 	public String findMaxCodeByParentId(@Param("type") int type, @Param("parentId") long parentId);
 	
 	public List<Consume> selectByParent(@Param("parentId") long parentId);

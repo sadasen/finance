@@ -1,5 +1,9 @@
 分类表操作
 
+updateHasChild
+===
+	update t_consume set has_child = #hasChild# where id = #id#
+
 findMaxCodeByParentId
 ===
 	select MAX(code) from t_consume

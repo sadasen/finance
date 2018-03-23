@@ -1,11 +1,10 @@
 package com.sadasen.finance.modules.account.service.impl;
 
-import java.util.Date;
-
 import org.beetl.sql.core.SQLManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sadasen.finance.modules.account.dao.AccountDao;
 import com.sadasen.finance.modules.account.entity.Account;
 import com.sadasen.finance.modules.account.service.AccountService;
 import com.sadasen.util.StringUtil;
@@ -21,6 +20,8 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private SQLManager sqlManager;
+	@Autowired
+	private AccountDao accountDao;
 
 	@Override
 	public Account save(Account account) {
@@ -28,7 +29,10 @@ public class AccountServiceImpl implements AccountService {
 			account.setId(-1L);
 			return account;
 		}
-		account.setCreateTime(new Date());
+		
+		int sort = accountDao.countByUser(account.getUserId());
+		account.setSort(sort);
+		
 		int r = sqlManager.insertTemplate(account, true);
 		if(1==r) {
 			return account;

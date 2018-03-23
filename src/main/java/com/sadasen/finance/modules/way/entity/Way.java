@@ -18,6 +18,7 @@ public class Way extends BaseBean {
 	private static final long serialVersionUID = 2487804878858971425L;
 	
 	private long id;
+	private long userId;
 	private String name;
 	private int sort;
 	private Date createTime;
@@ -31,6 +32,14 @@ public class Way extends BaseBean {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public int getSort() {

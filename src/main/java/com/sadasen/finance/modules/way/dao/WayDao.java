@@ -1,17 +1,17 @@
-package com.sadasen.finance.modules.account.dao;
+package com.sadasen.finance.modules.way.dao;
 
 import org.beetl.sql.core.annotatoin.Param;
 import org.beetl.sql.core.mapper.BaseMapper;
 
-import com.sadasen.finance.modules.account.entity.Account;
+import com.sadasen.finance.modules.way.entity.Way;
 
 /**
- * @date 2018年3月8日
+ * @date 2018年3月23日
  * @author lei.ys
  * @addr company
  * @desc
  */
-public interface AccountDao extends BaseMapper<Account> {
+public interface WayDao extends BaseMapper<Way> {
 	
 	public int countByUser(@Param("userId") long userId);
 

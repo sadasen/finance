@@ -17,7 +17,7 @@
 			<a href="/logout">注销</a>
 		</div>
 		<div data-role="content">
-			<ul data-role="listview" data-filter="true" data-inset="true" id="method-list">
+			<ul data-role="listview" data-filter="true" data-inset="true" id="account-list">
 			</ul>
 			<a href="#myPopupDialog" data-rel="popup" data-position-to="window" data-transition="fade" data-role="button">新增</a>
 			
@@ -29,8 +29,8 @@
 			
 			      <div data-role="main" class="ui-content">
 			        <div data-role="fieldcontain">
-						<label for="method">支出方式：</label>
-						<input type="text" name="name" id="method" />
+						<label for="account">支出方式：</label>
+						<input type="text" name="name" id="account" />
 				  	</div>
 			        <a href="javascript:void(0);" data-role="button" id="add-button">新增</a>
 			      </div>
@@ -42,36 +42,37 @@
 			<div data-role="navbar">
 				<ul>
 					<li><a href="/page/index">首页</a></li>
-					<li><a href="/page/consumeList" data-ajax="false">分类</a></li>
-					<li><a href="/page/methodList" class="ui-btn-active ui-state-persist">支出方式</a></li>
-					<li><a href="/index">统计</a></li>
+					<li><a href="/page/consumeList">分类</a></li>
+					<li><a href="/page/wayList">支出方式</a></li>
+					<li><a href="/page/accountList" class="ui-btn-active ui-state-persist">账户</a></li>
+					<li><a href="/page/statistics">统计</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<script>
 		$(document).ready(function() {
-			//getMethodList();
+			//getAccountList();
 			
 			$("#add-button").click(function() {
-				if(!$.trim($("#method").val())) {
+				if(!$.trim($("#account").val())) {
 					alert("支出方式不能为空！");
 					return;
 				}
 				$.ajax({
-					url: "/method/addCheck",
+					url: "/account/add",
 					type: "post",
-					data: {method: $("#method").val()},
+					data: {name: $("#account").val()},
 					dataType: "JSON",
 					success: function(res) {
 						if(res.code==200) {
 							alert("添加成功！");
-							var html = "<li>"+$("#method").val()+"</li>";
-							var e = $("#method-list");
+							var html = "<li>"+$("#account").val()+"</li>";
+							var e = $("#account-list");
 							e.append(html);
 			    			e.listview("refresh");
 			    			$("#myPopupDialog").popup("close");
-			    			$("#method").val("");
+			    			$("#account").val("");
 						} else {
 							alert(res.msg);
 						}
@@ -83,17 +84,17 @@
 			});
 		});
 		
-		function getMethodList() {
+		function getAccountList() {
 			$.ajax({
-		    	url: "/method/listAll",
+		    	url: "/account/listAll",
 		    	type: "post",
 		    	dataType: "json",
 		    	success: function(res) {
 		    		if(200==res.code) {
-		    			var e = $("#method-list");
+		    			var e = $("#account-list");
 		    			var html = "<li data-role='list-divider'>支出方式列表</li>";
 		    			for(var i=0;i<res.data.length;i++) {
-		    				html += "<li>"+res.data[i].method+"</li>";
+		    				html += "<li>"+res.data[i].name+"</li>";
 		    			}
 		    			e.html(html);
 		    			e.listview("refresh")

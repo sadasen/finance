@@ -2,6 +2,8 @@ package com.sadasen.finance.modules.consume.entity;
 
 import java.util.Date;
 
+import org.beetl.sql.core.annotatoin.Table;
+
 import com.sadasen.finance.base.BaseBean;
 import com.sadasen.finance.modules.consume.dto.ConsumeDto;
 
@@ -11,6 +13,7 @@ import com.sadasen.finance.modules.consume.dto.ConsumeDto;
  * @addr company
  * @desc
  */
+@Table(name="t_consume")
 public class Consume extends BaseBean {
 
 	private static final long serialVersionUID = 559050342991822907L;

@@ -49,8 +49,9 @@ CREATE TABLE IF NOT EXISTS t_record (
 	consume_id bigint(20) default 0 comment '分类ID',
 	way_id bigint(20) default 0 comment '方式ID',
 	account_id bigint(20) default 0 comment '账户ID',
-	record_date date default null '记账日期',
+	record_date date default null comment '记账日期',
 	amount int(11) default 0 comment '金额',
+	type tinyint(4) default 0 comment '类型',
 	remark varchar(255) default null comment '备注',
 	create_time timestamp default current_timestamp comment '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -21,6 +21,13 @@ CREATE TABLE IF NOT EXISTS t_consume (
 	create_time datetime DEFAULT null COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS t_consume_parent (
+	sub_id bigint(20) not null,
+	parent_id bigint(20) not null,
+	level tinyint(4) not null,
+	primary key (sub_id, parent_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS t_way (
 	id bigint(20) not null primary key auto_increment comment 'ID',
 	user_id bigint(20) default 0 comment '用户ID',

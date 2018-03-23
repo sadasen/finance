@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.sadasen.finance.modules.consume.dao.ConsumeDao;
 import com.sadasen.finance.modules.consume.entity.Consume;
+import com.sadasen.finance.modules.consume.entity.ConsumeParent;
 import com.sadasen.finance.modules.consume.service.ConsumeService;
 import com.sadasen.finance.util.Utils;
 import com.sadasen.util.StringUtil;
@@ -76,6 +77,16 @@ public class ConsumeServiceImpl implements ConsumeService {
 		consume.setCreateTime(new Date());
 		
 		int r = sqlManager.insertTemplate(consume, true);
+		
+		Consume temp = consume;
+		while(0L!=temp.getParentId()) {
+			temp = consumeDao.single(temp.getParentId());
+			ConsumeParent cp = new ConsumeParent();
+			cp.setSubId(consume.getId());
+			cp.setParentId(temp.getId());
+			cp.setLevel(temp.getLevel());
+			consumeDao.insertConsumeParent(cp);
+		}
 		
 		/** 父分类hasChild设置 */
 		if(null!=parent && 0==parent.getHasChild()) {

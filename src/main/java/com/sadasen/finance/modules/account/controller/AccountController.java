@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +53,12 @@ public class AccountController extends BaseController {
 		if(null==data) {
 			data = new ArrayList<>();
 		}
+		return JsonResult.instance(data);
+	}
+	
+	@GetMapping("/way/{wayId}")
+	public JsonResult listByWay(@PathVariable("wayId") long wayId) {
+		List<Account> data = accountService.findListByWay(Utils.getLoginUserId(getRequest()), wayId);
 		return JsonResult.instance(data);
 	}
 

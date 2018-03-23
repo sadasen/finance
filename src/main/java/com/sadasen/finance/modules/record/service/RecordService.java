@@ -2,6 +2,7 @@ package com.sadasen.finance.modules.record.service;
 
 import java.util.List;
 
+import com.sadasen.finance.modules.record.dto.RecordPara;
 import com.sadasen.finance.modules.record.entity.Record;
 import com.sadasen.finance.modules.record.vo.RecordInfo;
 
@@ -15,6 +16,6 @@ public interface RecordService {
 	
 	public Record save(Record record);
 	
-	public List<RecordInfo> listAll(Record record);
+	public List<RecordInfo> findInfoListByCondition(RecordPara para);
 
 }

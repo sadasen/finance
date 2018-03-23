@@ -6,6 +6,7 @@ import org.beetl.sql.core.annotatoin.Param;
 import org.beetl.sql.core.mapper.BaseMapper;
 
 import com.sadasen.finance.modules.consume.entity.Consume;
+import com.sadasen.finance.modules.consume.entity.ConsumeParent;
 
 /**
  * @date 2018年3月8日
@@ -14,6 +15,8 @@ import com.sadasen.finance.modules.consume.entity.Consume;
  * @desc
  */
 public interface ConsumeDao extends BaseMapper<Consume> {
+	
+	public int insertConsumeParent(ConsumeParent cp);
 	
 	public int updateHasChild(@Param("id") long id, @Param("hasChild") int hasChild);
 	

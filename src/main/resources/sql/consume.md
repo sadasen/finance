@@ -1,5 +1,10 @@
 分类表操作
 
+insertConsumeParent
+===
+	insert into t_consume_parent(sub_id, parent_id, level) 
+	value (#subId#, #parentId#, #level#)
+
 updateHasChild
 ===
 	update t_consume set has_child = #hasChild# where id = #id#

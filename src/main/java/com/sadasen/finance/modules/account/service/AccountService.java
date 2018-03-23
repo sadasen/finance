@@ -16,4 +16,6 @@ public interface AccountService {
 	
 	public List<Account> findListByUser(long userId);
 
+	public List<Account> findListByWay(long userId, long wayId);
+
 }

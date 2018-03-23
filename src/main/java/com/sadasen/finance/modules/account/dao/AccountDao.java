@@ -19,4 +19,6 @@ public interface AccountDao extends BaseMapper<Account> {
 	
 	public List<Account> selectListByUser(@Param("userId") long userId);
 
+	public List<Account> selectListByWay(@Param("userId") long userId, @Param("wayId") long wayId);
+
 }

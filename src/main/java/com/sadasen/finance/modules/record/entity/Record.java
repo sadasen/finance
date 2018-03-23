@@ -22,7 +22,8 @@ public class Record extends BaseBean {
 	private long consumeId;
 	private long wayId;
 	private long accountId;
-	private String recordData;
+	private String recordDate;
+	private String damount;
 	private int amount;
 	private int type;
 	private String remark;
@@ -71,12 +72,20 @@ public class Record extends BaseBean {
 		this.accountId = accountId;
 	}
 
-	public String getRecordData() {
-		return recordData;
+	public String getRecordDate() {
+		return recordDate;
 	}
 
-	public void setRecordData(String recordData) {
-		this.recordData = recordData;
+	public void setRecordDate(String recordDate) {
+		this.recordDate = recordDate;
+	}
+
+	public String getDamount() {
+		return damount;
+	}
+
+	public void setDamount(String damount) {
+		this.damount = damount;
 	}
 
 	public int getAmount() {

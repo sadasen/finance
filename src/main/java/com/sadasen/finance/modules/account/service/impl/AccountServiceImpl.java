@@ -47,4 +47,9 @@ public class AccountServiceImpl implements AccountService {
 		return accountDao.selectListByUser(userId);
 	}
 
+	@Override
+	public List<Account> findListByWay(long userId, long wayId) {
+		return accountDao.selectListByWay(userId, wayId);
+	}
+
 }

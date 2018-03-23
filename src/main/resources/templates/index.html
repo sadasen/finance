@@ -24,9 +24,9 @@
 			<a href="/logout">注销</a>
 		</div>
 		<div data-role="content">
-			<h4>总支出：<span id="total-cost"></span>元</h4>
-    		<h4>本月支出：<span id="month-cost"></span>元</h4>
-    		<h4>今日支出：<span id="today-cost"></span>元</h4>
+			<h4>总数：<span id="total-amount"></span>元&nbsp;&nbsp;&nbsp;：<span id="total-amount"></span>元</h4>
+    		<h4>本月：<span id="month-amount"></span>元&nbsp;&nbsp;&nbsp;：<span id="total-amount"></span>元</h4>
+    		<h4>今日：<span id="today-amount"></span>元&nbsp;&nbsp;&nbsp;
     		<hr />
     		<h3>最新支出</h3>
     		<!-- 
@@ -62,7 +62,7 @@
 			      <div data-role="main" class="ui-content">
 			        <p>日期：<span id="p-rdate"></span></p>
 			        <p>分类：<span id="p-consume"></span></p>
-			        <p>金额：<span id="p-price"></span>
+			        <p>金额：<span id="p-amount"></span>
 			        <p>方式：<span id="p-method"></span>
 			        <p>附加信息：<span id="p-remark"></span></p>
 			        <a href="javascript:void(0);" data-role="button" id="cancel-button">取消</a>
@@ -86,16 +86,16 @@
 	<script>
 		$(document).ready(function() {
 			$.ajax({
-		    	url: "/indexMsg",
+		    	url: "/statistics/index",
 		    	type: "post",
 		    	dataType: "json",
 		    	success: function(res) {
 		    		if(200==res.code) {
-		    			$("#total-cost").text(res.data.totalCost);
-		    			$("#month-cost").text(res.data.thisMonthCost);
-		    			$("#today-cost").text(res.data.todayCost);
-		    			getData("");
+		    			$("#total-amount").text(res.data.totalAmount);
+		    			$("#month-amount").text(res.data.thisMonthAmount);
+		    			$("#today-amount").text(res.data.todayAmount);
 		    		}
+	    			getData("");
 		    	},
 		    	error: function() {
 		    		//alert("error");
@@ -113,9 +113,9 @@
 		function getDetail(id) {
 			if(detail[id]) {
 				$("#myPopupDialog").popup("open");
-				$("#p-rdate").text(dateFormat(detail[id].rdate));
+				$("#p-rdate").text(dateFormat(detail[id].recordDate));
 				$("#p-consume").text(detail[id].name);
-				$("#p-price").text(detail[id].price);
+				$("#p-amount").text(detail[id].amount);
 				$("#p-method").text(detail[id].method);
 				$("#p-remark").text(detail[id].remark);
 			} else {
@@ -125,11 +125,11 @@
 					data: {id: id},
 					dataType: "JSON",
 					success: function(res) {
-						if(res.code==200) {
+						if(res.code==100) {
 							$("#myPopupDialog").popup("open");
-							$("#p-rdate").text(dateFormat(res.data.rdate));
+							$("#p-rdate").text(dateFormat(res.data.recordDate));
 							$("#p-consume").text(res.data.name);
-							$("#p-price").text(res.data.price);
+							$("#p-amount").text(res.data.amount);
 							$("#p-method").text(res.data.method);
 							$("#p-remark").text(res.data.remark);
 							detail[id] = res.data;
@@ -155,27 +155,27 @@
 		
 		function dealWithDataForListView(res) {
 			var tempDate;
-			var totalPrice = 0;
+			var totalAmount = 0;
 			var html = "";
 			var dayHtml = "";
 			for(var i=0;i<res.data.length;i++) {
 				if(i==0) {
-					tempDate = res.data[i].rdate;
-					totalPrice += res.data[i].price;
-					dayHtml = "<li><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"<span class=\"ui-li-count\">"+res.data[i].price+"</span></a></li>";
-				} else if(res.data[i].rdate == tempDate) {
-					totalPrice += res.data[i].price;
-					dayHtml += "<li><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"<span class=\"ui-li-count\">"+res.data[i].price+"</span></a></li>";
+					tempDate = res.data[i].recordDate;
+					totalAmount += res.data[i].amount;
+					dayHtml = "<li><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"<span class=\"ui-li-count\">"+res.data[i].amount+"</span></a></li>";
+				} else if(res.data[i].recordDate == tempDate) {
+					totalAmount += res.data[i].amount;
+					dayHtml += "<li><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"<span class=\"ui-li-count\">"+res.data[i].amount+"</span></a></li>";
 				} else {
-					dayHtml = "<li data-role=\"list-divider\">"+dateFormat(tempDate)+"<span class=\"ui-li-count\">"+Math.round(totalPrice*100)/100+"</span></li>"+dayHtml;
+					dayHtml = "<li data-role=\"list-divider\">"+dateFormat(tempDate)+"<span class=\"ui-li-count\">"+Math.round(totalAmount*100)/100+"</span></li>"+dayHtml;
 					html += dayHtml;
 
-					tempDate = res.data[i].rdate;
-					totalPrice = res.data[i].price;
-					dayHtml = "<li><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"<span class=\"ui-li-count\">"+res.data[i].price+"</span></a></li>";
+					tempDate = res.data[i].recordDate;
+					totalAmount = res.data[i].amount;
+					dayHtml = "<li><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"<span class=\"ui-li-count\">"+res.data[i].amount+"</span></a></li>";
 				}
 				if(i==res.data.length-1) {
-					dayHtml = "<li data-role=\"list-divider\">"+dateFormat(tempDate)+"<span class=\"ui-li-count\">"+Math.round(totalPrice*100)/100+"</span></li>"+dayHtml;
+					dayHtml = "<li data-role=\"list-divider\">"+dateFormat(tempDate)+"<span class=\"ui-li-count\">"+Math.round(totalAmount*100)/100+"</span></li>"+dayHtml;
 					html += dayHtml;
 				}
 			}
@@ -191,41 +191,41 @@
 			var otherLine = "";
 			var tempDate;
 			var num = 0;
-			var totalPrice = 0;
+			var totalAmount = 0;
 			for(var i=0;i<res.data.length;i++) {
 				if(i==0) {
 					num++;
-					tempDate = res.data[i].rdate;
-					firstLine = "<td><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"</a></td><td>"+res.data[i].price+"</td>";
-					totalPrice += res.data[i].price;
-				} else if(tempDate==res.data[i].rdate) {
+					tempDate = res.data[i].recordDate;
+					firstLine = "<td><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"</a></td><td>"+res.data[i].amount+"</td>";
+					totalAmount += res.data[i].amount;
+				} else if(tempDate==res.data[i].recordDate) {
 					num++;
-					otherLine += "<tr><td><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"</a></td><td>"+res.data[i].price+"</td></tr>";
-					totalPrice += res.data[i].price;
+					otherLine += "<tr><td><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"</a></td><td>"+res.data[i].amount+"</td></tr>";
+					totalAmount += res.data[i].amount;
 				} else {
-					firstLine = "<tr><td rowspan="+num+">"+dateFormat(tempDate)+"</td>" + firstLine + "<td rowspan="+num+">"+Math.round(totalPrice*100)/100+"</td></tr>";
+					firstLine = "<tr><td rowspan="+num+">"+dateFormat(tempDate)+"</td>" + firstLine + "<td rowspan="+num+">"+Math.round(totalAmount*100)/100+"</td></tr>";
 					html += (firstLine+otherLine);
 					
-					tempDate = res.data[i].rdate;
-					firstLine = "<td><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"</a></td><td>"+res.data[i].price+"</td>";
+					tempDate = res.data[i].recordDate;
+					firstLine = "<td><a href=\"javascript:void(0);\" onclick=\"getDetail('"+res.data[i].id+"');\">"+res.data[i].name+"</a></td><td>"+res.data[i].amount+"</td>";
 					otherLine = "";
 					num=1;
-					totalPrice = res.data[i].price;
+					totalAmount = res.data[i].amount;
 				}
 				if(i==res.data.length-1) {
-					firstLine = "<tr><td rowspan="+num+">"+dateFormat(tempDate)+"</td>" + firstLine + "<td rowspan="+num+">"+Math.round(totalPrice*100)/100+"</td></tr>";
+					firstLine = "<tr><td rowspan="+num+">"+dateFormat(tempDate)+"</td>" + firstLine + "<td rowspan="+num+">"+Math.round(totalAmount*100)/100+"</td></tr>";
 					html += (firstLine+otherLine);
 				}
-				//html += "<tr><td>"+res.data[i].rdate+"</td><td>"+res.data[i].name+"</td><td>"+res.data[i].price+"</td></tr>";
+				//html += "<tr><td>"+res.data[i].recordDate+"</td><td>"+res.data[i].name+"</td><td>"+res.data[i].amount+"</td></tr>";
 			}
 			tbody.append(html);
 			$("tfoot tr td").first().html("<a href=\"javascript:void(0);\" onclick=\"getData('"+tempDate+"');\">加载更多</a>");
 		}
 		
 		function getData(endDate) {
-			var data = {};
+			var data = {type: 0};
 			if(endDate) {
-				data = {endDate: endDate}
+				data.endDate = endDate;
 			}
 			$.ajax({
 		    	url: "/record/queryList",
@@ -233,7 +233,7 @@
 		    	data: data,
 		    	dataType: "json",
 		    	success: function(res) {
-		    		if(200==res.code && res.data.length>0) {
+		    		if(100==res.code && res.data.length>0) {
 		    			dealWithDataForListView(res);
 		    		} else {
 		    			alert(res.msg);

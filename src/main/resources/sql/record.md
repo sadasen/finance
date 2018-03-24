@@ -10,7 +10,7 @@ selectInfoListByCondition
 	@if(isNotEmpty(endDate)){
 		and a.record_date < #endDate#
 	@}
-	order by record_date desc, create_time desc
+	order by a.record_date desc, a.create_time desc
 	
 selectAfter30
 ===

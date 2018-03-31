@@ -1,6 +1,6 @@
 selectInfoListByCondition
 ===
-	select a.id, a.record_date, a.amount, b.name
+	select a.id, a.record_date, round(a.amount/100,2) as amount, b.name
 	from t_record a join t_consume b on a.consume_id = b.id
 	where
 	a.type = #type# and a.user_id = #userId# 

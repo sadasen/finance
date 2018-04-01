@@ -71,5 +71,15 @@ public class StatisticsController extends BaseController {
 		List<StatisticsInfo> data = statisticsService.getConsumeTotal(para);
 		return JsonResult.instance(data);
 	}
+	
+	@GetMapping("/everyBaseConsume/{type}")
+	public JsonResult everyBaseConsumeTotal(@PathVariable("type") int type) {
+		long userId = Utils.getLoginUserId(getRequest());
+		StatsPara para = new StatsPara();
+		para.setType(type);
+		para.setUserId(userId);
+		List<StatisticsInfo> data = statisticsService.getBaseConsumeTotal(para);
+		return JsonResult.instance(data);
+	}
 
 }

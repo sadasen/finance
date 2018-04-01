@@ -39,3 +39,14 @@ selectConsumeTotal
 	where 
 	r.type = #type# and r.user_id = #userId# group by r.consume_id order by field_two desc
 	
+selectBaseConsumeTotal
+===
+	select a.name as field_one, round(b.total,2) as field_two 
+	from t_consume a join 
+	(
+		select left(c.code, 3) rcode,sum(r.amount)/100 total 
+		from t_record r join t_consume c on r.consume_id = c.id 
+		where r.type = #type# and r.user_id = #userId# 
+		group by rcode
+	) b on a.code = b.rcode
+	

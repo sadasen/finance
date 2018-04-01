@@ -60,5 +60,10 @@ public class StatisticsServiceImpl implements StatisticsService {
 	public List<StatisticsInfo> getConsumeTotal(StatsPara para) {
 		return statisticsDao.selectConsumeTotal(para);
 	}
+	
+	@Override
+	public List<StatisticsInfo> getBaseConsumeTotal(StatsPara para) {
+		return statisticsDao.selectBaseConsumeTotal(para);
+	}
 
 }

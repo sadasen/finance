@@ -29,6 +29,8 @@ public interface StatisticsDao extends BaseMapper<Statistics> {
 	
 	public List<StatisticsInfo> selectConsumeTotal(StatsPara para);
 	
+	public List<StatisticsInfo> selectBaseConsumeTotal(StatsPara para);
+	
 	
 
 }

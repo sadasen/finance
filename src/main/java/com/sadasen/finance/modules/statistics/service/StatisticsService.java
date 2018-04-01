@@ -26,5 +26,7 @@ public interface StatisticsService {
 	public List<StatisticsInfo> getEveryMonth(StatsPara para);
 	
 	public List<StatisticsInfo> getConsumeTotal(StatsPara para);
+	
+	public List<StatisticsInfo> getBaseConsumeTotal(StatsPara para);
 
 }

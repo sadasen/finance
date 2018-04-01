@@ -18,16 +18,22 @@
 		</div>
 		<div data-role="content">
 			<div data-role="collapsible">
-			<h1 id="every-month">每月统计</h1>
-			<input type="hidden" id="every-month-flag" value="0"/>
-			<ul data-role="listview" data-inset="true" id="every-month-record-list">
-			</ul>
+				<h1 id="every-month">每月统计</h1>
+				<input type="hidden" id="every-month-flag" value="0"/>
+				<ul data-role="listview" data-inset="true" id="every-month-record-list">
+				</ul>
 			</div>
 			<div data-role="collapsible">
-			<h1 id="every-consume">分类排序</h1>
-			<input type="hidden" id="every-consume-flag" value="0"/>
-			<ul data-role="listview" data-inset="true" id="every-consume-record-list">
-			</ul>
+				<h1 id="every-base-consume">主分类统计</h1>
+				<input type="hidden" id="every-base-consume-flag" value="0"/>
+				<ul data-role="listview" data-inset="true" id="every-base-consume-record-list">
+				</ul>
+			</div>
+			<div data-role="collapsible">
+				<h1 id="every-consume">分类排序</h1>
+				<input type="hidden" id="every-consume-flag" value="0"/>
+				<ul data-role="listview" data-inset="true" id="every-consume-record-list">
+				</ul>
 			</div>
 		</div>
 		<div data-role="footer" data-position="fixed" data-id="icmu">
@@ -60,6 +66,29 @@
 									$("#every-month-record-list").html(html);
 									$("#every-month-record-list").listview("refresh");
 									$("#every-month-flag").val(1);
+								}
+							}
+						}
+					});
+				}
+			});
+			
+			$("#every-base-consume").click(function() {
+				if($("#every-base-consume-flag").val()==0) {
+					$.ajax({
+						url: "/statistics/everyBaseConsume/"+0,
+						type: "GET",
+						dataType: "JSON",
+						success: function(res) {
+							if(100==res.code) {
+								var html = "";
+								if(res.data && res.data.length>0) {
+									for(var i=0;i<res.data.length;i++) {
+										html += "<li>"+(i+1)+". "+res.data[i].fieldOne+"<span class=\"ui-li-count\">"+res.data[i].fieldTwo+"</span></li>";
+									}
+									$("#every-base-consume-record-list").html(html);
+									$("#every-base-consume-record-list").listview("refresh");
+									$("#every-base-consume-flag").val(1);
 								}
 							}
 						}

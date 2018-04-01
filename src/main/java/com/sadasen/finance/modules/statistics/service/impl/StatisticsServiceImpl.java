@@ -2,6 +2,7 @@ package com.sadasen.finance.modules.statistics.service.impl;
 
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.sadasen.finance.modules.statistics.dao.StatisticsDao;
 import com.sadasen.finance.modules.statistics.dto.StatsPara;
 import com.sadasen.finance.modules.statistics.service.StatisticsService;
+import com.sadasen.finance.modules.statistics.vo.StatisticsInfo;
 
 /**
  * @date 2018年3月23日
@@ -47,6 +49,16 @@ public class StatisticsServiceImpl implements StatisticsService {
 	@Override
 	public long getAvgAll(StatsPara para) {
 		return statisticsDao.selectAvgAll(para);
+	}
+
+	@Override
+	public List<StatisticsInfo> getEveryMonth(StatsPara para) {
+		return statisticsDao.selectEveryMonth(para);
+	}
+	
+	@Override
+	public List<StatisticsInfo> getConsumeTotal(StatsPara para) {
+		return statisticsDao.selectConsumeTotal(para);
 	}
 
 }
